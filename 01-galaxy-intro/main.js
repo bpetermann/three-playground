@@ -1,7 +1,7 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as THREE from 'three';
 import * as dat from 'lil-gui';
-import './style.css'
+import './style.css';
 
 // Debug
 const gui = new dat.GUI();
@@ -17,16 +17,6 @@ const scene = new THREE.Scene();
 // Textures
 
 const textureLoader = new THREE.TextureLoader();
-const cubeTextureLoader = new THREE.CubeTextureLoader();
-
-const environmentMapTexture = cubeTextureLoader.load([
-  '/textures/environmentMaps/0/px.png',
-  '/textures/environmentMaps/0/nx.png',
-  '/textures/environmentMaps/0/py.png',
-  '/textures/environmentMaps/0/ny.png',
-  '/textures/environmentMaps/0/pz.png',
-  '/textures/environmentMaps/0/nz.png',
-]);
 
 // Test sphere
 
@@ -35,7 +25,6 @@ const sphere = new THREE.Mesh(
   new THREE.MeshStandardMaterial({
     metalness: 0.3,
     roughness: 0.4,
-    envMap: environmentMapTexture,
     envMapIntensity: 0.5,
   })
 );
@@ -51,7 +40,6 @@ const floor = new THREE.Mesh(
     color: '#777777',
     metalness: 0.3,
     roughness: 0.4,
-    envMap: environmentMapTexture,
     envMapIntensity: 0.5,
   })
 );
