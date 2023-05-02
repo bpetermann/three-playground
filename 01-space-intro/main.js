@@ -1,12 +1,12 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import * as THREE from 'three';
 import * as dat from 'lil-gui';
 import './style.css';
 
 // Debug
 const gui = new dat.GUI();
-
-// Base
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -15,37 +15,88 @@ const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
 
 // Textures
-
 const textureLoader = new THREE.TextureLoader();
+const matcaptexture = textureLoader.load('/textures/matcaps/1.png');
 
-// Test sphere
+// Particles
+const particlesGeometry = new THREE.BufferGeometry();
 
-const sphere = new THREE.Mesh(
-  new THREE.SphereGeometry(0.5, 32, 32),
-  new THREE.MeshStandardMaterial({
-    metalness: 0.3,
-    roughness: 0.4,
-    envMapIntensity: 0.5,
-  })
+const count = 2000;
+
+const positions = new Float32Array(count * 3);
+
+for (let i = 0; i < count * 3; i++) {
+  positions[i] = (Math.random() - 0.5) * 100;
+}
+
+particlesGeometry.setAttribute(
+  'position',
+  new THREE.BufferAttribute(positions, 3)
 );
-sphere.castShadow = true;
-sphere.position.y = 0.5;
-scene.add(sphere);
 
-// Floor
+const particlesMaterial = new THREE.PointsMaterial();
+particlesMaterial.size = 0.001;
+const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+scene.add(particles);
 
-const floor = new THREE.Mesh(
-  new THREE.PlaneGeometry(10, 10),
-  new THREE.MeshStandardMaterial({
-    color: '#777777',
-    metalness: 0.3,
-    roughness: 0.4,
-    envMapIntensity: 0.5,
-  })
-);
-floor.receiveShadow = true;
-floor.rotation.x = -Math.PI * 0.5;
-scene.add(floor);
+// Font
+const objectsToUpdate = [];
+
+const material = new THREE.MeshMatcapMaterial({ matcap: matcaptexture });
+
+const createFont = (position, str) => {
+  const fontLoader = new FontLoader();
+  fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
+    const textGeometry = new TextGeometry(str, {
+      font,
+      size: 0.8,
+      height: 0.2,
+      curveSegments: 5,
+      bevelEnabled: true,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
+      bevelOffset: 0,
+      bevelSegments: 4,
+    });
+
+    textGeometry.center();
+
+    const text = new THREE.Mesh(textGeometry, material);
+    text.rotation.x = Math.PI * -0.5;
+    text.position.z = position;
+    scene.add(text);
+
+    objectsToUpdate.push({
+      text,
+    });
+  });
+};
+
+const textToDisplay = [
+  {
+    position: 4,
+    text: 'It is a period of civil war.',
+  },
+
+  {
+    position: 5.5,
+    text: 'Rebel spaceships, striking',
+  },
+  {
+    position: 7,
+    text: 'from a hidden base, have won',
+  },
+  {
+    position: 8.5,
+    text: 'their first victory against',
+  },
+  {
+    position: 10,
+    text: 'the evil Galactic Empire.',
+  },
+];
+
+textToDisplay.map(({ position, text }) => createFont(position, text));
 
 // Lights
 
@@ -93,7 +144,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.set(-3, 3, 3);
+camera.position.set(0, 10, 8);
 scene.add(camera);
 
 // Controls
@@ -119,6 +170,11 @@ const tick = () => {
 
   // Update controls
   controls.update();
+
+  // Move
+  for (const object of objectsToUpdate) {
+    object.text.position.z += -elapsedTime * 0.002;
+  }
 
   // Render
   renderer.render(scene, camera);
