@@ -1,12 +1,9 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import textToDisplay from './textToDisplay';
 import * as THREE from 'three';
-import * as dat from 'lil-gui';
 import './style.css';
-
-// Debug
-const gui = new dat.GUI();
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -71,30 +68,6 @@ const createFont = (position, str) => {
     });
   });
 };
-
-const textToDisplay = [
-  {
-    position: 4,
-    text: 'It is a period of civil war.',
-  },
-
-  {
-    position: 5.5,
-    text: 'Rebel spaceships, striking',
-  },
-  {
-    position: 7,
-    text: 'from a hidden base, have won',
-  },
-  {
-    position: 8.5,
-    text: 'their first victory against',
-  },
-  {
-    position: 10,
-    text: 'the evil Galactic Empire.',
-  },
-];
 
 textToDisplay.map(({ position, text }) => createFont(position, text));
 
