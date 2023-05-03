@@ -19,7 +19,6 @@ const matcaptexture = textureLoader.load('/textures/matcaps/1.png');
 const particlesGeometry = new THREE.BufferGeometry();
 
 const count = 2000;
-
 const positions = new Float32Array(count * 3);
 
 for (let i = 0; i < count * 3; i++) {
@@ -72,7 +71,6 @@ const createFont = (position, str) => {
 textToDisplay.map(({ position, text }) => createFont(position, text));
 
 // Lights
-
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
 scene.add(ambientLight);
 
@@ -88,29 +86,23 @@ directionalLight.position.set(5, 5, 5);
 scene.add(directionalLight);
 
 // Sizes
-
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
 
 window.addEventListener('resize', () => {
-  // Update sizes
   sizes.width = window.innerWidth;
   sizes.height = window.innerHeight;
 
-  // Update camera
   camera.aspect = sizes.width / sizes.height;
   camera.updateProjectionMatrix();
 
-  // Update renderer
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
 // Camera
-
-// Base camera
 const camera = new THREE.PerspectiveCamera(
   75,
   sizes.width / sizes.height,
@@ -125,7 +117,6 @@ const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 
 // Renderer
-
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
@@ -135,24 +126,19 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // Animate
-
 const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
-  // Update controls
   controls.update();
 
-  // Move
   for (const object of objectsToUpdate) {
     object.text.position.z += -elapsedTime * 0.002;
   }
 
-  // Render
   renderer.render(scene, camera);
 
-  // Call tick again on the next frame
   window.requestAnimationFrame(tick);
 };
 
