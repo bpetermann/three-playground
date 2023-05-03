@@ -4,7 +4,7 @@
 
 ### Thanks
 
-- These sketches relay heavily on Bruno Simons fantastic course [threejs-journey ](https://threejs-journey.com/)
+- These sketches rely heavily on Bruno Simons fantastic course [threejs-journey ](https://threejs-journey.com/)
 
 ```
 git clone https://github.com/bpetermann/three-playground.git
