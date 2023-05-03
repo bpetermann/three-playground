@@ -2,8 +2,16 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import textToDisplay from './textToDisplay';
+import * as dat from 'lil-gui';
 import * as THREE from 'three';
 import './style.css';
+
+// Gui
+const gui = new dat.GUI();
+const guiParameters = {};
+guiParameters.speed = 0.002;
+
+gui.add(guiParameters, 'speed').min(0).max(0.01).step(0.001).name('speed');
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -13,7 +21,7 @@ const scene = new THREE.Scene();
 
 // Textures
 const textureLoader = new THREE.TextureLoader();
-const matcaptexture = textureLoader.load('/textures/matcaps/1.png');
+const matcapTexture = textureLoader.load('/textures/matcaps/1.png');
 
 // Particles
 const particlesGeometry = new THREE.BufferGeometry();
@@ -32,13 +40,13 @@ particlesGeometry.setAttribute(
 
 const particlesMaterial = new THREE.PointsMaterial();
 particlesMaterial.size = 0.001;
-const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-scene.add(particles);
+const space = new THREE.Points(particlesGeometry, particlesMaterial);
+scene.add(space);
 
 // Font
-const objectsToUpdate = [];
+const animatedText = [];
 
-const material = new THREE.MeshMatcapMaterial({ matcap: matcaptexture });
+const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 
 const createFont = (position, str) => {
   const fontLoader = new FontLoader();
@@ -62,13 +70,32 @@ const createFont = (position, str) => {
     text.position.z = position;
     scene.add(text);
 
-    objectsToUpdate.push({
+    animatedText.push({
       text,
     });
   });
 };
 
-textToDisplay.map(({ position, text }) => createFont(position, text));
+const startAnimation = () => {
+  if (animatedText.length) {
+    resetAnimation();
+  }
+  textToDisplay.map(({ position, text }) => createFont(position, text));
+};
+
+const resetAnimation = () => {
+  for (const object of animatedText) {
+    //Remove mesh
+    scene.remove(object.text);
+  }
+  animatedText.splice(0, animatedText.length);
+};
+
+guiParameters.start = startAnimation;
+guiParameters.reset = resetAnimation;
+
+gui.add(guiParameters, 'start');
+gui.add(guiParameters, 'reset');
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
@@ -133,8 +160,8 @@ const tick = () => {
 
   controls.update();
 
-  for (const object of objectsToUpdate) {
-    object.text.position.z += -elapsedTime * 0.002;
+  for (const object of animatedText) {
+    object.text.position.z += -elapsedTime * guiParameters.speed;
   }
 
   renderer.render(scene, camera);
