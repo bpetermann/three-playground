@@ -6,6 +6,8 @@
 
 - These sketches rely heavily on Bruno Simons fantastic course [threejs-journey ](https://threejs-journey.com/)
 
+### Get started
+
 ```
 git clone https://github.com/bpetermann/three-playground.git
 cd three-playground
