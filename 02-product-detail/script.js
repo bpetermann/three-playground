@@ -9,12 +9,14 @@ const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
 
 // Models
+let product = null;
 const gltfLoader = new GLTFLoader();
 gltfLoader.load(
   '/models/MaterialsVariantsShoe/glTF/MaterialsVariantsShoe.gltf',
   (gltf) => {
-    gltf.scene.scale.set(8.5, 8.5, 8.5);
-    scene.add(gltf.scene);
+    product = gltf.scene;
+    product.scale.set(8.5, 8.5, 8.5);
+    scene.add(product);
   }
 );
 
@@ -78,12 +80,11 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // Animate
 const clock = new THREE.Clock();
-let previousTime = 0;
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-  const deltaTime = elapsedTime - previousTime;
-  previousTime = elapsedTime;
+
+  if (product) product.rotation.y = elapsedTime * 0.1;
 
   controls.update();
 

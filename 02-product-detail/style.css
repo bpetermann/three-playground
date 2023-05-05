@@ -41,13 +41,13 @@ p {
 
 #material {
   position: fixed;
-  top: 25%;
-  left: 60%;
+  top: 20%;
+  left: 45%;
 }
 
 #features {
   position: fixed;
-  top: 50%;
+  top: 70%;
   left: 70%;
 }
 
@@ -81,7 +81,7 @@ p {
   }
 }
 
-@media (min-width: 768px) and (max-width: 992px) {
+@media (min-width: 768px) and (max-width: 1268px) {
   h1 {
     font-size: 96px;
   }
@@ -91,8 +91,8 @@ p {
   }
 
   #material {
-    top: 20%;
-    left: 55%;
+    top: 25%;
+    left: 10%;
   }
 
   #features {
