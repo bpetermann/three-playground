@@ -56,10 +56,43 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .webgl {
   width: 100%;
+}
+
+#directionX,
+#directionY {
+  all: unset;
+  cursor: pointer;
+  height: 34px;
+  width: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #efeff0;
+}
+
+#directionX:hover,
+#directionY:hover {
+  opacity: 0.6;
+}
+
+#directionX {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+}
+
+#directionY {
+  position: absolute;
+  bottom: 32px;
+  left: 80px;
+  transform: rotate(90deg);
+  opacity: 0.6;
 }
 
 .product {
@@ -100,7 +133,7 @@ form select {
   border: 1px solid #d0d1d3;
 }
 
-button {
+form > button {
   width: 100%;
   cursor: pointer;
   height: 36px;
@@ -116,7 +149,6 @@ img {
   width: 22px;
   height: 22px;
   vertical-align: middle;
-  margin-right: 8px;
 }
 
 table {
@@ -357,6 +389,14 @@ footer > div {
     align-items: center;
   }
 
+  #directionX {
+    left: 108px;
+  }
+
+  #directionY {
+    left: 156px;
+  }
+
   .newsletter-form {
     padding-left: 8px;
     padding-right: 8px;
@@ -379,5 +419,17 @@ footer > div {
   footer > div {
     flex-direction: column;
     align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  #directionX {
+    bottom: 5%;
+    left: 8px;
+  }
+
+  #directionY {
+    bottom: 5%;
+    left: 56px;
   }
 }

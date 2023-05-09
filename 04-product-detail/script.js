@@ -1,6 +1,23 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
 
+// Navigation control
+let navigation = 'y';
+const directionX = document.getElementById('directionX');
+const directionY = document.getElementById('directionY');
+
+directionX.addEventListener('click', () => {
+  directionX.style.opacity = '0.6';
+  directionY.style.opacity = '1';
+  navigation = 'x';
+});
+
+directionY.addEventListener('click', () => {
+  directionX.style.opacity = '1';
+  directionY.style.opacity = '0.6';
+  navigation = 'y';
+});
+
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
 
@@ -82,8 +99,11 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-
-  if (product) product.rotation.y = elapsedTime * 0.2;
+  console.log(navigation);
+  if (product)
+    navigation === 'y'
+      ? (product.rotation.y = elapsedTime * 0.2)
+      : (product.rotation.x = elapsedTime * 0.2);
 
   renderer.render(scene, camera);
 
