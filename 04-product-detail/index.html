@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>20 - Scroll base animation</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <svg
+          fill="none"
+          stroke-linecap="square"
+          stroke-miterlimit="10"
+          version="1.1"
+          viewBox="0 0 226.77 226.77"
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+        >
+          <g
+            transform="translate(8.964 4.2527)"
+            fill-rule="evenodd"
+            stroke="#000"
+            stroke-linecap="butt"
+            stroke-linejoin="round"
+            stroke-width="4"
+          >
+            <path d="m63.02 200.61-43.213-174.94 173.23 49.874z" />
+            <path d="m106.39 50.612 21.591 87.496-86.567-24.945z" />
+            <path d="m84.91 125.03-10.724-43.465 43.008 12.346z" />
+            <path d="m63.458 38.153 10.724 43.465-43.008-12.346z" />
+            <path d="m149.47 62.93 10.724 43.465-43.008-12.346z" />
+            <path d="m84.915 125.06 10.724 43.465-43.008-12.346z" />
+          </g>
+        </svg>
+        <h1>shopping cart</h1>
+      </div>
+    </header>
+    <div class="wrapper">
+      <div class="container">
+        <div class="webgl-container">
+          <canvas class="webgl"></canvas>
+        </div>
+        <div class="product">
+          <div class="product-container">
+            <h2>Midgnight Runners</h2>
+            <p class="description">Product description</p>
+            <p>€89.99</p>
+            <div class="rating">
+              3 User Ratings:
+              <div>
+                <img src="/images/star.png" alt="gift image" />
+                <img src="/images/star.png" alt="gift image" />
+                <img src="/images/star.png" alt="gift image" />
+                <img src="/images/star.png" alt="gift image" />
+                <img src="/images/star.png" alt="gift image" />
+              </div>
+            </div>
+
+            <form>
+              <select>
+                <option value="one">One Size</option>
+              </select>
+              <button>Add to Cart</button>
+            </form>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <img src="/images/truck.png" alt="truck image" />
+                    Standard Delivery
+                    <p>2-4 business days</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <img src="/images/return.png" alt="return image" />
+                    30 days return policy
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <img src="/images/gift.png" alt="gift image" />
+                    Redeem your voucher
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="newsletter">
+      <div>
+        <div class="heading">
+          <h2>JOIN OUR NEWSLETTER!</h2>
+          <p>Keep up to date</p>
+        </div>
+        <form class="newsletter-form">
+          <input placeholder="Your Email" />
+          <p>I am mostly interested in</p>
+          <div class="radio">
+            <input
+              type="radio"
+              id="wfashion"
+              name="fav_language"
+              value="wfashion"
+            />
+            <label for="wfashion"> Women's Fashion</label>
+          </div>
+          <div class="radio">
+            <input
+              type="radio"
+              id="mfashion"
+              name="fav_language"
+              value="mfashion"
+            />
+            <label for="mfashion"> Men's Fashion</label>
+          </div>
+          <button>
+            <img src="/images/mail.png" alt="main icon" class="icon" />
+            Add my Email
+          </button>
+          <p>
+            You can unsubscribe at any time free of charge. Just a demo, no
+            emails are stored
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <div>
+        <nav class="links">
+          <ul>
+            <li>About</li>
+            <li>Imprint</li>
+            <li>Terms & Conditions</li>
+            <li>Data settings</li>
+          </ul>
+        </nav>
+        <nav class="social">
+          Find more inspiration:
+          <ul>
+            <li><img src="/images/facebook.png" alt="facebook logo" /></li>
+            <li><img src="/images/spotify.png" alt="spotify logo" /></li>
+            <li><img src="/images/instagram.png" alt="instagram logo" /></li>
+            <li><img src="/images/youtube.png" alt="youtube logo" /></li>
+            <li><img src="/images/twitter.png" alt="twitter logo" /></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
