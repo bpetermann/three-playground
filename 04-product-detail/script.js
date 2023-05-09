@@ -31,9 +31,7 @@ gltfLoader.load(
   '/models/MaterialsVariantsShoe/glTF/MaterialsVariantsShoe.gltf',
   (gltf) => {
     product = gltf.scene;
-    window.innerWidth <= 500
-      ? product.scale.set(8, 8, 8)
-      : product.scale.set(10, 10, 10);
+    product.scale.set(10, 10, 10);
     scene.add(product);
   }
 );
@@ -60,10 +58,6 @@ const sizes = {
 };
 
 window.addEventListener('resize', () => {
-  window.innerWidth <= 500
-    ? product.scale.set(8, 8, 8)
-    : product.scale.set(10, 10, 10);
-
   // Update sizes
   (sizes.width = window.innerWidth <= 500 ? 375 : 500),
     (sizes.height = window.innerWidth <= 500 ? 375 : 500),
