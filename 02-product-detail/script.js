@@ -70,11 +70,15 @@ controls.enableDamping = true;
 // Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
+  antialias: true,
   alpha: true,
 });
 // renderer.setClearColor(0xefeff0);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.useLegacyLights = true;
+renderer.toneMapping = THREE.ReinhardToneMapping;
+renderer.toneMappingExposure = 3;
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 

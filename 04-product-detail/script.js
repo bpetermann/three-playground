@@ -89,8 +89,12 @@ scene.add(camera);
 // Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
+  antialias: true,
   alpha: true,
 });
+
+renderer.toneMapping = THREE.ReinhardToneMapping;
+renderer.toneMappingExposure = 3;
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -99,7 +103,7 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-  console.log(navigation);
+
   if (product)
     navigation === 'y'
       ? (product.rotation.y = elapsedTime * 0.2)
