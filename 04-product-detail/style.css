@@ -76,11 +76,6 @@ h1 {
   background-color: #efeff0;
 }
 
-#directionX:hover,
-#directionY:hover {
-  opacity: 0.6;
-}
-
 #directionX {
   position: absolute;
   bottom: 32px;
