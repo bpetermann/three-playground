@@ -1,21 +1,34 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
 
-// Navigation control
-let navigation = 'y';
-const directionX = document.getElementById('directionX');
-const directionY = document.getElementById('directionY');
+// Rotation control
+let rotate = 'y';
+const rotateX = document.getElementById('rotateX');
+const rotateY = document.getElementById('rotateY');
+const stop = document.getElementById('stop');
 
-directionX.addEventListener('click', () => {
-  directionX.style.opacity = '0.6';
-  directionY.style.opacity = '1';
-  navigation = 'x';
+rotateX.addEventListener('click', () => {
+  rotateX.style.opacity = '0.6';
+  rotateY.style.opacity = '1';
+  stop.style.opacity = '1';
+
+  rotate = 'x';
 });
 
-directionY.addEventListener('click', () => {
-  directionX.style.opacity = '1';
-  directionY.style.opacity = '0.6';
-  navigation = 'y';
+rotateY.addEventListener('click', () => {
+  rotateX.style.opacity = '1';
+  rotateY.style.opacity = '0.6';
+  stop.style.opacity = '1';
+
+  rotate = 'y';
+});
+
+stop.addEventListener('click', () => {
+  rotateX.style.opacity = '1';
+  rotateY.style.opacity = '1';
+  stop.style.opacity = '0.6';
+
+  rotate = null;
 });
 
 // Canvas
@@ -98,8 +111,8 @@ const clock = new THREE.Clock();
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
-  if (product)
-    navigation === 'y'
+  if (product && rotate)
+    rotate === 'y'
       ? (product.rotation.y = elapsedTime * 0.2)
       : (product.rotation.x = elapsedTime * 0.2);
 

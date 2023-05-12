@@ -63,8 +63,9 @@ h1 {
   width: 100%;
 }
 
-#directionX,
-#directionY {
+#rotateX,
+#rotateY,
+#stop {
   all: unset;
   cursor: pointer;
   height: 34px;
@@ -76,18 +77,25 @@ h1 {
   background-color: #efeff0;
 }
 
-#directionX {
+#rotateX {
   position: absolute;
   bottom: 32px;
   left: 32px;
 }
 
-#directionY {
+#rotateY {
   position: absolute;
   bottom: 32px;
   left: 80px;
   transform: rotate(90deg);
   opacity: 0.6;
+}
+
+#stop {
+  position: absolute;
+  bottom: 32px;
+  left: 128px;
+  transform: rotate(90deg);
 }
 
 .product {
@@ -380,12 +388,16 @@ footer > div {
     align-items: center;
   }
 
-  #directionX {
+  #rotateX {
     left: 108px;
   }
 
-  #directionY {
+  #rotateY {
     left: 156px;
+  }
+
+  #stop {
+    left: 204px;
   }
 
   .newsletter-form {
@@ -414,13 +426,18 @@ footer > div {
 }
 
 @media (max-width: 480px) {
-  #directionX {
+  #rotateX {
     bottom: 5%;
     left: 8px;
   }
 
-  #directionY {
+  #rotateY {
     bottom: 5%;
     left: 56px;
+  }
+
+  #stop {
+    bottom: 5%;
+    left: 104px;
   }
 }
