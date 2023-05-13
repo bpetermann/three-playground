@@ -128,7 +128,7 @@ const createBox = (position) => {
 };
 
 // Reset
-guiParameters.start = () => {
+guiParameters.reset = () => {
   for (const object of objectsToUpdate) {
     world.removeBody(object.body);
     scene.remove(object.mesh);
@@ -144,8 +144,8 @@ guiParameters.start = () => {
     });
   }
 };
-gui.add(guiParameters, 'start');
-guiParameters.start();
+gui.add(guiParameters, 'reset');
+guiParameters.reset();
 
 // Floor
 const floor = new THREE.Mesh(
