@@ -7,7 +7,10 @@ import * as dat from 'lil-gui';
 // GUI
 const gui = new dat.GUI();
 const guiParameters = {};
+
 guiParameters.speed = 0.002;
+guiParameters.color = false;
+
 gui.add(guiParameters, 'speed').min(0).max(0.1).step(0.001);
 
 // Canvas
@@ -25,13 +28,18 @@ const material = new THREE.ShaderMaterial({
   fragmentShader: fragment,
   side: THREE.DoubleSide,
   uniforms: {
-    uDegree: { value: guiParameters.speed },
+    uDegree: { value: 0.002 },
+    uColor: { value: guiParameters.color },
   },
+});
+
+// GUI
+gui.add(guiParameters, 'color').onChange(() => {
+  material.uniforms.uColor.value = guiParameters.color;
 });
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material);
-
 scene.add(mesh);
 
 // Sizes
@@ -70,6 +78,7 @@ controls.enableDamping = true;
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
+
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
