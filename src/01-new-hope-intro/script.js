@@ -9,9 +9,9 @@ import './style.css';
 // Gui
 const gui = new dat.GUI();
 const guiParameters = {};
-guiParameters.speed = 0.002;
+guiParameters.speed = 0.008;
 
-gui.add(guiParameters, 'speed').min(0).max(0.01).step(0.001).name('speed');
+gui.add(guiParameters, 'speed').min(0).max(0.02).step(0.001).name('speed');
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -45,6 +45,8 @@ scene.add(space);
 
 // Font
 const animatedText = [];
+const fontStart = 7;
+const fontIncrement = 1.5;
 
 const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 
@@ -67,7 +69,7 @@ const createFont = (position, str) => {
 
     const text = new THREE.Mesh(textGeometry, material);
     text.rotation.x = Math.PI * -0.5;
-    text.position.z = position;
+    text.position.z = fontStart + fontIncrement * position;
     scene.add(text);
 
     animatedText.push({
@@ -80,7 +82,7 @@ const startAnimation = () => {
   if (animatedText.length) {
     resetAnimation();
   }
-  textToDisplay.map(({ position, text }) => createFont(position, text));
+  textToDisplay.map((text, index) => createFont(index, text));
 };
 
 const resetAnimation = () => {
@@ -156,14 +158,17 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // Animate
 const clock = new THREE.Clock();
+let oldElapsedTime = 0;
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
+  const deltaTime = elapsedTime - oldElapsedTime;
+  oldElapsedTime = elapsedTime;
 
   controls.update();
 
   for (const object of animatedText) {
-    object.text.position.z += -elapsedTime * guiParameters.speed;
+    object.text.position.z += -deltaTime * 100 * guiParameters.speed;
   }
 
   renderer.render(scene, camera);
