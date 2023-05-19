@@ -20,6 +20,8 @@ export default {
         '03-chamboule-tout': resolve(root, '03-chamboule-tout', 'index.html'),
         '04-product-detail': resolve(root, '04-product-detail', 'index.html'),
         '05-shader-drawing': resolve(root, '05-shader-drawing', 'index.html'),
+        '06-business-card': resolve(root, '06-business-card', 'index.html'),
+
       },
     },
   },
