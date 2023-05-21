@@ -225,7 +225,6 @@ const tick = () => {
   const deltaTime = elapsedTime - oldElapsedTime;
   oldElapsedTime = elapsedTime;
 
-  // Update physics
   world.step(1 / 60, deltaTime, 3);
 
   for (const object of objectsToUpdate) {

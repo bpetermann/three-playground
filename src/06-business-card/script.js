@@ -156,9 +156,12 @@ card.rotation.x = -Math.PI * 0.5;
 scene.add(card);
 
 // GUI
-gui.add(guiParameters, 'color').onChange(() => {
-  cardMaterial.uniforms.uColor.value = guiParameters.color;
-});
+gui
+  .add(guiParameters, 'color')
+  .onChange(() => {
+    cardMaterial.uniforms.uColor.value = guiParameters.color;
+  })
+  .name('Color');
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
@@ -218,7 +221,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-// Background geometries
+// Background
 const backgroundMaterial = [];
 
 const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
@@ -256,8 +259,8 @@ const create = (position, textToDisplay, textSize) => {
   fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
     const textGeometry = new TextGeometry(textToDisplay, {
       font,
-      size: textSize === 'large' ? 0.8 : 0.4,
-      height: 0.2,
+      size: textSize === 'large' ? 0.8 : 0.45,
+      height: 0.1,
       curveSegments: 5,
       bevelEnabled: true,
       bevelThickness: 0.03,

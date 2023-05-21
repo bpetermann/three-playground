@@ -87,7 +87,6 @@ const startAnimation = () => {
 
 const resetAnimation = () => {
   for (const object of animatedText) {
-    //Remove mesh
     scene.remove(object.text);
   }
   animatedText.splice(0, animatedText.length);
