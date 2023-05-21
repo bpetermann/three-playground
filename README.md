@@ -4,7 +4,7 @@
 
 ### Thanks
 
-- These sketches rely heavily on Bruno Simons fantastic course [threejs-journey ](https://threejs-journey.com/)
+- These sketches rely heavily/ are based upon Bruno Simons fantastic course [threejs-journey ](https://threejs-journey.com/)
 
 ### Get started
 

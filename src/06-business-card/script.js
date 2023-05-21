@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import fragment from './shaders/fragment.glsl';
+import vertex from './shaders/vertex.glsl';
 import * as dat from 'lil-gui';
 import CANNON from 'cannon';
 
@@ -16,16 +18,16 @@ guiParameters.address = 'Upper West Side, New York, NY 10024, USA';
 
 guiParameters.create = () => {
   if (businesCardData.length) {
-    const { position, text, size } =
+    const { coodinates, text, size } =
       businesCardData[businesCardData.length - 1];
-    create(position, text, size);
+    create(coodinates, text, size);
     businesCardData.pop();
   }
 };
 
 const businesCardData = [
   {
-    position: {
+    coodinates: {
       x: 0,
       y: 1,
       z: 3.5,
@@ -33,7 +35,7 @@ const businesCardData = [
     text: guiParameters.address,
   },
   {
-    position: {
+    coodinates: {
       x: 0,
       y: 1,
       z: 0.25,
@@ -41,7 +43,7 @@ const businesCardData = [
     text: guiParameters.job,
   },
   {
-    position: {
+    coodinates: {
       x: 0,
       y: 1,
       z: -1,
@@ -50,7 +52,7 @@ const businesCardData = [
     size: 'large',
   },
   {
-    position: {
+    coodinates: {
       x: 5,
       y: 1,
       z: -3.5,
@@ -58,7 +60,7 @@ const businesCardData = [
     text: guiParameters.telephone,
   },
   {
-    position: {
+    coodinates: {
       x: -5,
       y: 1,
       z: -3.5,
@@ -136,15 +138,14 @@ cardBody.addShape(cardShape);
 cardBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI * 0.5);
 world.addBody(cardBody);
 
-const card = new THREE.Mesh(
-  new THREE.PlaneGeometry(20, 10),
-  new THREE.MeshStandardMaterial({
-    color: '#faf8ff',
-    metalness: 0.3,
-    roughness: 0.4,
-    envMapIntensity: 0.5,
-  })
-);
+const cardMaterial = new THREE.ShaderMaterial({
+  vertexShader: vertex,
+  fragmentShader: fragment,
+  side: THREE.DoubleSide,
+});
+
+const card = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), cardMaterial);
+
 card.receiveShadow = true;
 card.rotation.x = -Math.PI * 0.5;
 
@@ -176,6 +177,7 @@ window.addEventListener('resize', () => {
   sizes.height = window.innerHeight;
 
   camera.aspect = sizes.width / sizes.height;
+  camera.position.y = window.innerWidth <= 928 ? 24 : 14;
   camera.updateProjectionMatrix();
 
   renderer.setSize(sizes.width, sizes.height);
@@ -207,24 +209,34 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-// Background
+// Background geometries
+const backgroundMaterial = [];
+
 const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
-const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45);
+const geometries = [
+  new THREE.TorusGeometry(0.3, 0.2, 20, 45),
+  new THREE.ConeGeometry(0.3, 0.2, 32),
+  new THREE.OctahedronGeometry(0.3, 0),
+];
 
 for (let i = 0; i < 300; i++) {
-  const donut = new THREE.Mesh(donutGeometry, material);
+  const bgGeometry = new THREE.Mesh(
+    geometries[Math.floor(Math.random() * 3)],
+    material
+  );
 
-  donut.position.x = (Math.random() - 0.5) * 75;
-  donut.position.y = (Math.random() - 0.5) * 75;
-  donut.position.z = (Math.random() - 0.5) * 75;
+  bgGeometry.position.x = (Math.random() - 0.5) * 75;
+  bgGeometry.position.y = (Math.random() - 0.5) * 75;
+  bgGeometry.position.z = (Math.random() - 0.5) * 75;
 
-  donut.rotation.x = Math.random() * Math.PI;
-  donut.rotation.y = Math.random() * Math.PI;
+  bgGeometry.rotation.x = Math.random() * Math.PI;
+  bgGeometry.rotation.y = Math.random() * Math.PI;
 
   const scale = Math.random();
-  donut.scale.set(scale, scale, scale);
+  bgGeometry.scale.set(scale, scale, scale);
 
-  scene.add(donut);
+  backgroundMaterial.push(bgGeometry);
+  scene.add(bgGeometry);
 }
 
 // Utils
