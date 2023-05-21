@@ -1,10 +1,12 @@
 varying vec2 vUv;
-uniform float uDegree;
+
 uniform bool uColor;
 
 void main()
 {
     float strength = length(vUv);
-    
-    gl_FragColor = vec4(strength, strength, strength, 1.0);
+    float rColor = uColor ? 0.4 : strength;
+    float bColor = uColor ? 0.8 : strength;
+
+    gl_FragColor = vec4(rColor, strength, bColor, 1.0);
 }

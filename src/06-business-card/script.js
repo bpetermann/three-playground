@@ -10,6 +10,8 @@ import CANNON from 'cannon';
 // Debug
 const gui = new dat.GUI();
 const guiParameters = {};
+guiParameters.color = true;
+
 guiParameters.email = 'john.doe@gmail.com';
 guiParameters.telephone = '518-308-3928';
 guiParameters.name = 'John Doe';
@@ -98,7 +100,7 @@ gui
   .onChange(() => {
     businesCardData[0].text = guiParameters.address;
   })
-  .name('address');
+  .name('Address');
 
 gui.add(guiParameters, 'create');
 
@@ -142,14 +144,21 @@ const cardMaterial = new THREE.ShaderMaterial({
   vertexShader: vertex,
   fragmentShader: fragment,
   side: THREE.DoubleSide,
+  uniforms: {
+    uColor: { value: guiParameters.color },
+  },
 });
 
 const card = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), cardMaterial);
 
 card.receiveShadow = true;
 card.rotation.x = -Math.PI * 0.5;
-
 scene.add(card);
+
+// GUI
+gui.add(guiParameters, 'color').onChange(() => {
+  cardMaterial.uniforms.uColor.value = guiParameters.color;
+});
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
@@ -248,7 +257,7 @@ const create = (position, textToDisplay, textSize) => {
     const textGeometry = new TextGeometry(textToDisplay, {
       font,
       size: textSize === 'large' ? 0.8 : 0.4,
-      height: textSize === 'large' ? 0.6 : 0.2,
+      height: 0.2,
       curveSegments: 5,
       bevelEnabled: true,
       bevelThickness: 0.03,
