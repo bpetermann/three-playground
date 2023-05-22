@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
@@ -150,8 +151,6 @@ const cardMaterial = new THREE.ShaderMaterial({
 });
 
 const card = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), cardMaterial);
-
-card.receiveShadow = true;
 card.rotation.x = -Math.PI * 0.5;
 scene.add(card);
 
@@ -162,21 +161,6 @@ gui
     cardMaterial.uniforms.uColor.value = guiParameters.color;
   })
   .name('Color');
-
-// Lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);
-directionalLight.castShadow = true;
-directionalLight.shadow.mapSize.set(1024, 1024);
-directionalLight.shadow.camera.far = 15;
-directionalLight.shadow.camera.left = -7;
-directionalLight.shadow.camera.top = 7;
-directionalLight.shadow.camera.right = 7;
-directionalLight.shadow.camera.bottom = -7;
-directionalLight.position.set(5, 5, 5);
-scene.add(directionalLight);
 
 // Sizes
 const sizes = {
@@ -216,40 +200,43 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true,
   alpha: true,
 });
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-// Background
-const backgroundMaterial = [];
-
+// Material
 const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
-const geometries = [
-  new THREE.TorusGeometry(0.3, 0.2, 20, 45),
-  new THREE.ConeGeometry(0.3, 0.2, 32),
-  new THREE.OctahedronGeometry(0.3, 0),
-];
 
-for (let i = 0; i < 300; i++) {
-  const bgGeometry = new THREE.Mesh(
-    geometries[Math.floor(Math.random() * 3)],
-    material
+// Background
+const bgGeometries = [];
+
+for (let i = 0; i < 100; i++) {
+  const torusGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45);
+  const coneGeometry = new THREE.ConeGeometry(0.3, 0.2, 32);
+
+  torusGeometry.rotateX(Math.random() * Math.PI);
+  torusGeometry.rotateY(Math.random() * Math.PI);
+
+  coneGeometry.rotateX(Math.random() * Math.PI);
+  coneGeometry.rotateY(Math.random() * Math.PI);
+
+  torusGeometry.translate(
+    (Math.random() - 0.5) * 100,
+    (Math.random() - 0.5) * 100,
+    (Math.random() - 0.5) * 100
   );
 
-  bgGeometry.position.x = (Math.random() - 0.5) * 75;
-  bgGeometry.position.y = (Math.random() - 0.5) * 75;
-  bgGeometry.position.z = (Math.random() - 0.5) * 75;
+  coneGeometry.translate(
+    (Math.random() - 0.5) * 100,
+    (Math.random() - 0.5) * 100,
+    (Math.random() - 0.5) * 100
+  );
 
-  bgGeometry.rotation.x = Math.random() * Math.PI;
-  bgGeometry.rotation.y = Math.random() * Math.PI;
-
-  const scale = Math.random();
-  bgGeometry.scale.set(scale, scale, scale);
-
-  backgroundMaterial.push(bgGeometry);
-  scene.add(bgGeometry);
+  bgGeometries.push(torusGeometry, coneGeometry);
 }
+
+const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(bgGeometries);
+const mesh = new THREE.Mesh(mergedGeometry, material);
+scene.add(mesh);
 
 // Utils
 const objectsToUpdate = [];

@@ -9,19 +9,19 @@ const gui = new dat.GUI();
 const guiParameters = {};
 guiParameters.positionX = 0;
 guiParameters.positionY = 0.5;
-guiParameters.force = 100;
+guiParameters.strength = 100;
 guiParameters.shoot = () => {
   shoot();
 };
 
-gui.add(guiParameters, 'positionX').min(-4).max(4).step(0.5).name('position X');
+gui.add(guiParameters, 'positionX').min(-4).max(4).step(0.5).name('position x');
 gui
   .add(guiParameters, 'positionY')
   .min(0.5)
   .max(4)
   .step(0.5)
-  .name('position Y');
-gui.add(guiParameters, 'force').min(100).max(5000).step(10).name('force');
+  .name('position y');
+gui.add(guiParameters, 'strength').min(100).max(5000).step(10).name('strength');
 gui.add(guiParameters, 'shoot');
 
 // Canvas
@@ -88,7 +88,7 @@ const shoot = () => {
     z: 5,
   });
   body.applyLocalForce(
-    new CANNON.Vec3(0, 200, -guiParameters.force),
+    new CANNON.Vec3(0, 200, -guiParameters.strength),
     new CANNON.Vec3(0, 0, 0)
   );
 
@@ -161,18 +161,12 @@ floor.rotation.x = -Math.PI * 0.5;
 scene.add(floor);
 
 // Lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);
+const directionalLight = new THREE.DirectionalLight('#ffffff', 1);
 directionalLight.castShadow = true;
 directionalLight.shadow.mapSize.set(1024, 1024);
 directionalLight.shadow.camera.far = 15;
-directionalLight.shadow.camera.left = -7;
-directionalLight.shadow.camera.top = 7;
-directionalLight.shadow.camera.right = 7;
-directionalLight.shadow.camera.bottom = -7;
-directionalLight.position.set(5, 5, 5);
+directionalLight.shadow.normalBias = 0.05;
+directionalLight.position.set(0.25, 3, 2.25);
 scene.add(directionalLight);
 
 // Sizes
