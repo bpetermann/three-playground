@@ -63,6 +63,15 @@ h1 {
   width: 100%;
 }
 
+span {
+  position: absolute;
+}
+
+span > img {
+  height: 34px;
+  width: 34px;
+}
+
 #rotateX,
 #rotateY,
 #stop {

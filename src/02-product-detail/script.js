@@ -8,15 +8,28 @@ const canvas = document.querySelector('canvas.webgl');
 // Scene
 const scene = new THREE.Scene();
 
+// Loading
+const loadingBar = document.querySelector('.loading');
+
+const loadingManager = new THREE.LoadingManager(
+  () => {
+    loadingBar.remove();
+    scene.add(product);
+  },
+  (_, loaded, total) => {
+    const progress = loaded / total;
+    loadingBar.style.transform = `scaleX(${progress})`;
+  }
+);
+
 // Models
 let product = null;
-const gltfLoader = new GLTFLoader();
+const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.load(
   '/models/MaterialsVariantsShoe/glTF/MaterialsVariantsShoe.gltf',
   (gltf) => {
     product = gltf.scene;
     product.scale.set(8.5, 8.5, 8.5);
-    scene.add(product);
   }
 );
 
@@ -73,7 +86,6 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true,
   alpha: true,
 });
-// renderer.setClearColor(0xefeff0);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.useLegacyLights = true;

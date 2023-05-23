@@ -1,35 +1,6 @@
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
-
-// Rotation control
-let rotate = 'y';
-const rotateX = document.getElementById('rotateX');
-const rotateY = document.getElementById('rotateY');
-const stop = document.getElementById('stop');
-
-rotateX.addEventListener('click', () => {
-  rotateX.style.opacity = '0.6';
-  rotateY.style.opacity = '1';
-  stop.style.opacity = '1';
-
-  rotate = 'x';
-});
-
-rotateY.addEventListener('click', () => {
-  rotateX.style.opacity = '1';
-  rotateY.style.opacity = '0.6';
-  stop.style.opacity = '1';
-
-  rotate = 'y';
-});
-
-stop.addEventListener('click', () => {
-  rotateX.style.opacity = '1';
-  rotateY.style.opacity = '1';
-  stop.style.opacity = '0.6';
-
-  rotate = null;
-});
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import rotate from './rotationControl';
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -37,15 +8,22 @@ const canvas = document.querySelector('canvas.webgl');
 // Scene
 const scene = new THREE.Scene();
 
+// Loading
+const spinner = document.querySelector('span');
+
+const loadingManager = new THREE.LoadingManager(() => {
+  spinner.remove();
+  scene.add(product);
+});
+
 // Models
 let product = null;
-const gltfLoader = new GLTFLoader();
+const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.load(
   '/models/MaterialsVariantsShoe/glTF/MaterialsVariantsShoe.gltf',
   (gltf) => {
     product = gltf.scene;
     product.scale.set(10, 10, 10);
-    scene.add(product);
   }
 );
 
@@ -111,8 +89,8 @@ const clock = new THREE.Clock();
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
-  if (product && rotate)
-    rotate === 'y'
+  if (product && rotate.direction)
+    rotate.direction === 'y'
       ? (product.rotation.y = elapsedTime * 0.2)
       : (product.rotation.x = elapsedTime * 0.2);
 

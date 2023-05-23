@@ -5,8 +5,9 @@ uniform bool uColor;
 void main()
 {
     float strength = length(vUv);
-    float rColor = uColor ? 0.4 : strength;
-    float bColor = uColor ? 0.8 : strength;
+    float rStrength = uColor ? vUv.x : strength;
+    float gStrength = uColor ? vUv.y : strength;
+    float bStrength = uColor ? 1.0 : strength;
 
-    gl_FragColor = vec4(rColor, strength, bColor, 1.0);
+    gl_FragColor = vec4(rStrength, gStrength, bStrength, 1.0);
 }

@@ -59,6 +59,23 @@ p {
   left: 25%;
 }
 
+.loading-container {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  width: 100%;
+  transform-origin: top left;
+}
+
+.loading {
+  background: #646cff;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: top left;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+}
+
 @media (max-width: 768px) {
   h1 {
     font-size: 52px;
@@ -85,6 +102,10 @@ p {
     top: 75%;
     left: 4px;
   }
+
+  .loading-container {
+    left: 4px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1268px) {
@@ -97,8 +118,8 @@ p {
   }
 
   #material {
-    top: 25%;
-    left: 10%;
+    top: 40%;
+    left: 4px;
   }
 
   #features {
@@ -107,5 +128,9 @@ p {
 
   #sole {
     top: 75%;
+  }
+
+  .loading-container {
+    left: 35%;
   }
 }
