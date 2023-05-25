@@ -8,16 +8,27 @@ import vertex from './shaders/vertex.glsl';
 import * as dat from 'lil-gui';
 import CANNON from 'cannon';
 
-// Debug
+// URL
+const params = new URLSearchParams(window.location.search);
+const url = window.location.origin;
+
+// GUI
 const gui = new dat.GUI();
 const guiParameters = {};
+
+guiParameters.email = params.get('email') ?? 'john.doe@gmail.com';
+guiParameters.telephone = params.get('telephone') ?? '518-308-3928';
+guiParameters.name = params.get('name') ?? 'John Doe';
+guiParameters.job = params.get('job') ?? 'Frontend Developer';
+guiParameters.address = params.get('address') ?? 'New York, NY 10024, USA';
 guiParameters.color = true;
 
-guiParameters.email = 'john.doe@gmail.com';
-guiParameters.telephone = '518-308-3928';
-guiParameters.name = 'John Doe';
-guiParameters.job = 'Frontend Developer';
-guiParameters.address = 'Upper West Side, New York, NY 10024, USA';
+guiParameters.copy = () => {
+  console.log(url);
+  navigator.clipboard.writeText(
+    `${url}/06-business-card/?name=${guiParameters.name}&email=${guiParameters.email}&telephone=${guiParameters.telephone}&job=${guiParameters.job}&address=${guiParameters.address}`
+  );
+};
 
 guiParameters.create = () => {
   if (businesCardData.length) {
@@ -30,80 +41,48 @@ guiParameters.create = () => {
 
 const businesCardData = [
   {
-    coodinates: {
-      x: 0,
-      y: 1,
-      z: 3.5,
-    },
+    coodinates: { x: 0, z: 3.5 },
     text: guiParameters.address,
   },
   {
-    coodinates: {
-      x: 0,
-      y: 1,
-      z: 0.25,
-    },
+    coodinates: { x: 0, z: 0.25 },
     text: guiParameters.job,
   },
   {
-    coodinates: {
-      x: 0,
-      y: 1,
-      z: -1,
-    },
+    coodinates: { x: 0, z: -1 },
     text: guiParameters.name,
     size: 'large',
   },
   {
-    coodinates: {
-      x: 5,
-      y: 1,
-      z: -3.5,
-    },
+    coodinates: { x: 5, z: -3.5 },
     text: guiParameters.telephone,
   },
   {
-    coodinates: {
-      x: -5,
-      y: 1,
-      z: -3.5,
-    },
+    coodinates: { x: -5, z: -3.5 },
     text: guiParameters.email,
   },
 ];
 
-gui
-  .add(guiParameters, 'name')
-  .onChange(() => {
-    businesCardData[2].text = guiParameters.name;
-  })
-  .name('Name');
-gui
-  .add(guiParameters, 'email')
-  .onChange(() => {
-    businesCardData[4].text = guiParameters.email;
-  })
-  .name('Email');
-gui
-  .add(guiParameters, 'telephone')
-  .onChange(() => {
-    businesCardData[3].text = guiParameters.telephone;
-  })
-  .name('Telephone');
-gui
-  .add(guiParameters, 'job')
-  .onChange(() => {
-    businesCardData[1].text = guiParameters.job;
-  })
-  .name('Job');
-gui
-  .add(guiParameters, 'address')
-  .onChange(() => {
-    businesCardData[0].text = guiParameters.address;
-  })
-  .name('Address');
-
+gui.add(guiParameters, 'name').onChange(() => {
+  if (businesCardData[2]) businesCardData[2].text = guiParameters.name;
+});
+gui.add(guiParameters, 'email').onChange(() => {
+  if (businesCardData[4]) businesCardData[4].text = guiParameters.email;
+});
+gui.add(guiParameters, 'telephone').onChange(() => {
+  if (businesCardData[3]) businesCardData[3].text = guiParameters.telephone;
+});
+gui.add(guiParameters, 'job').onChange(() => {
+  if (businesCardData[1]) businesCardData[1].text = guiParameters.job;
+});
+gui.add(guiParameters, 'address').onChange(() => {
+  if (businesCardData[0]) businesCardData[0].text = guiParameters.address;
+});
+gui.add(guiParameters, 'color').onChange(() => {
+  cardMaterial.uniforms.uColor.value = guiParameters.color;
+});
 gui.add(guiParameters, 'create');
+gui.add(guiParameters, 'copy').name('copy');
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -153,14 +132,6 @@ const cardMaterial = new THREE.ShaderMaterial({
 const card = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), cardMaterial);
 card.rotation.x = -Math.PI * 0.5;
 scene.add(card);
-
-// GUI
-gui
-  .add(guiParameters, 'color')
-  .onChange(() => {
-    cardMaterial.uniforms.uColor.value = guiParameters.color;
-  })
-  .name('Color');
 
 // Sizes
 const sizes = {
@@ -234,7 +205,7 @@ for (let i = 0; i < 100; i++) {
   bgGeometries.push(torusGeometry, coneGeometry);
 }
 
-const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(bgGeometries);
+const mergedGeometry = BufferGeometryUtils.mergeGeometries(bgGeometries);
 const mesh = new THREE.Mesh(mergedGeometry, material);
 scene.add(mesh);
 
@@ -264,11 +235,10 @@ const create = (position, textToDisplay, textSize) => {
     const shape = new CANNON.Sphere(0.1);
     const body = new CANNON.Body({
       mass: 1,
-      position: new CANNON.Vec3(0, 3, 0),
+      position: new CANNON.Vec3(position.x, 1, position.z),
       shape,
       material: defaultMaterial,
     });
-    body.position.copy(position);
     world.add(body);
 
     objectsToUpdate.push({
