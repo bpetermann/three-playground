@@ -1,4 +1,4 @@
-## 02-product-detail
+## 04-product-detail
 
 - Another product detail page
 
