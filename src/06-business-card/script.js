@@ -15,18 +15,18 @@ const url = window.location.origin;
 // GUI
 const gui = new dat.GUI();
 const guiParameters = {};
+const showGui = !!params.get('hide') ? false : true;
 
 guiParameters.email = params.get('email') ?? 'john.doe@gmail.com';
 guiParameters.telephone = params.get('telephone') ?? '518-308-3928';
 guiParameters.name = params.get('name') ?? 'John Doe';
 guiParameters.job = params.get('job') ?? 'Frontend Developer';
 guiParameters.address = params.get('address') ?? 'New York, NY 10024, USA';
-guiParameters.color = true;
+guiParameters.color = params.get('color') === 'false' ? false : true;
 
 guiParameters.copy = () => {
-  console.log(url);
   navigator.clipboard.writeText(
-    `${url}/06-business-card/?name=${guiParameters.name}&email=${guiParameters.email}&telephone=${guiParameters.telephone}&job=${guiParameters.job}&address=${guiParameters.address}`
+    `${url}/06-business-card/?name=${guiParameters.name}&email=${guiParameters.email}&telephone=${guiParameters.telephone}&job=${guiParameters.job}&address=${guiParameters.address}&color=${guiParameters.color}&hide=true`
   );
 };
 
@@ -63,26 +63,34 @@ const businesCardData = [
   },
 ];
 
-gui.add(guiParameters, 'name').onChange(() => {
-  if (businesCardData[2]) businesCardData[2].text = guiParameters.name;
-});
-gui.add(guiParameters, 'email').onChange(() => {
-  if (businesCardData[4]) businesCardData[4].text = guiParameters.email;
-});
-gui.add(guiParameters, 'telephone').onChange(() => {
-  if (businesCardData[3]) businesCardData[3].text = guiParameters.telephone;
-});
-gui.add(guiParameters, 'job').onChange(() => {
-  if (businesCardData[1]) businesCardData[1].text = guiParameters.job;
-});
-gui.add(guiParameters, 'address').onChange(() => {
-  if (businesCardData[0]) businesCardData[0].text = guiParameters.address;
-});
-gui.add(guiParameters, 'color').onChange(() => {
-  cardMaterial.uniforms.uColor.value = guiParameters.color;
-});
+showGui &&
+  gui.add(guiParameters, 'name').onChange(() => {
+    if (businesCardData[2]) businesCardData[2].text = guiParameters.name;
+  });
+showGui &&
+  gui.add(guiParameters, 'email').onChange(() => {
+    if (businesCardData[4]) businesCardData[4].text = guiParameters.email;
+  });
+showGui &&
+  gui.add(guiParameters, 'telephone').onChange(() => {
+    if (businesCardData[3]) businesCardData[3].text = guiParameters.telephone;
+  });
+showGui &&
+  gui.add(guiParameters, 'job').onChange(() => {
+    if (businesCardData[1]) businesCardData[1].text = guiParameters.job;
+  });
+showGui &&
+  gui.add(guiParameters, 'address').onChange(() => {
+    if (businesCardData[0]) businesCardData[0].text = guiParameters.address;
+  });
+
+showGui &&
+  gui.add(guiParameters, 'color').onChange(() => {
+    cardMaterial.uniforms.uColor.value = guiParameters.color;
+  });
+
 gui.add(guiParameters, 'create');
-gui.add(guiParameters, 'copy').name('copy');
+showGui && gui.add(guiParameters, 'copy').name('copy');
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
