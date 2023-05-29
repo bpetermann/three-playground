@@ -21,7 +21,7 @@ export default {
         '04-product-detail': resolve(root, '04-product-detail', 'index.html'),
         '05-shader-drawing': resolve(root, '05-shader-drawing', 'index.html'),
         '06-business-card': resolve(root, '06-business-card', 'index.html'),
-
+        '07-blender-portal': resolve(root, '07-blender-portal', 'index.html'),
       },
     },
   },
