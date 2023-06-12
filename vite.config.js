@@ -22,6 +22,7 @@ export default {
         '05-shader-drawing': resolve(root, '05-shader-drawing', 'index.html'),
         '06-business-card': resolve(root, '06-business-card', 'index.html'),
         '07-blender-portal': resolve(root, '07-blender-portal', 'index.html'),
+        '08-earth-animation': resolve(root, '08-earth-animation', 'index.html'),
       },
     },
   },
