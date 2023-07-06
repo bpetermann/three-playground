@@ -4,7 +4,7 @@
   font-weight: 500;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 1);
+  color: #ededed;
   background-color: #000000;
 
   font-synthesis: none;
@@ -39,20 +39,23 @@ li {
   flex-direction: column;
   background-color: #111111;
   border: 1px solid #2f2f2f;
-  border-radius: 5px;
+    border-radius: 5px;
   flex-basis: calc(50% - 8px);
   width: calc(50% - 8px);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
   padding-top: 16px;
   padding-bottom: 16px;
   gap: 16px;
+}
+
+li:hover {
+  box-shadow: 0px 0px 1px 1px #ededed;
 }
 
 img {
   width: 80%;
   border-radius: 5px;
   max-width: 200px;
-  max-height: 360px;
+  max-height: 350px;
 }
 
 a {
