@@ -4,15 +4,9 @@
   font-weight: 500;
 
   color-scheme: light dark;
-  color: #ededed;
-  background-image: linear-gradient(
-    to bottom,
-    #000000,
-    #050505,
-    #090909,
-    #0d0d0d,
-    #111111
-  );
+  color: #e1ebff;
+  background-color: #000;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -27,7 +21,9 @@ body {
 }
 
 ul {
-  max-width: 1368;
+  max-width: 1368px;
+  box-sizing: border-box;
+  justify-content: center;
   padding: 16px;
   display: flex;
   text-align: center;
