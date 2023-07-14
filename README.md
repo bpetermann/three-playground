@@ -1,8 +1,7 @@
 ## Three.js Playground
 
-Just learning three.js by doing some sketches
-\
-[View live](three-playground-one.vercel.app)
+- Just learning three.js by doing some sketches
+- [View live](https://three-playground-one.vercel.app/)
 
 ### Thanks
 
